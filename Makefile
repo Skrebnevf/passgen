@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -Wall -Wextra -g
+CFLAGS := -Wall -Wextra -Wpedantic -Werror -Wshadow -Wformat=2 -Wstrict-prototypes -Wmissing-prototypes -Wwrite-strings -Wpointer-arith -g
 SRCDIR := src
 OBJDIR := obj
 BUILDDIR := bin
