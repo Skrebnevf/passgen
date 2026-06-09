@@ -1,0 +1,12 @@
+# Build artifacts
+obj/
+bin/
+*.o
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
