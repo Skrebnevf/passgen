@@ -15,7 +15,8 @@ Features
   - X11 (via xclip)
   - Wayland (via wl-copy)
   - macOS (via pbcopy)
-* No external dependencies beyond standard system tools
+* No external dependencies beyond standard system tools and a C99
+  compiler; on Linux, arc4random may require glibc ≥ 2.36 or libbsd
 
 
 Requirements

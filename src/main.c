@@ -1,4 +1,5 @@
 #include <limits.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -16,8 +17,6 @@ int main(int argc, char **argv) {
     fprintf(stderr, "Usage: -g <len>, -h for help\n");
     exit(STATUS_USAGE_ERROR);
   }
-
-  DisplayServer display_server = detect_display_server();
 
   int opt;
   while ((opt = getopt(argc, argv, "hg:")) != -1) {
@@ -39,13 +38,13 @@ int main(int argc, char **argv) {
           }
         }
 
-        if (*endptr != '\0') {
-          fprintf(stderr, "Trailing characters after the number\n");
+        if (optarg == endptr) {
+          fprintf(stderr, "Not a valid number\n");
           exit(STATUS_NOT_A_NUMBER);
         }
 
-        if (optarg == endptr) {
-          fprintf(stderr, "Not a valid number\n");
+        if (*endptr != '\0') {
+          fprintf(stderr, "Trailing characters after the number\n");
           exit(STATUS_NOT_A_NUMBER);
         }
 
@@ -55,31 +54,28 @@ int main(int argc, char **argv) {
           exit(STATUS_PASSWORD_LENGTH_ERROR);
         }
 
-        char *password = malloc(arg + 1);
+        char *password = malloc((size_t)arg + 1);
         if (!password) {
           perror("malloc");
           exit(STATUS_ALLOCATION_ERROR);
         }
 
-        if (generate_password(password, arg) != STATUS_OK) {
-          explicit_bzero(password, arg + 1);
-          free(password);
-          exit(STATUS_GENERATE_PASSWORD_ERROR);
-        }
+        generate_password(password, arg);
+        DisplayServer display_server = detect_display_server();
 
         print_password(password);
         if (copy_to_clipboard(display_server, password) != STATUS_OK) {
           fprintf(stderr, "warning: could not copy password to clipboard\n");
         }
 
-        explicit_bzero(password, arg + 1);
+        explicit_bzero(password, (size_t)arg + 1);
         free(password);
 
         return STATUS_OK;
       }
       case 'h':
         printf("Use -g <len> for password generation\n");
-        return STATUS_OK;
+        exit(STATUS_OK);
       case '?':
         if (optopt == 'g') {
           fprintf(stderr, "-g requires a number argument\n");

@@ -37,8 +37,6 @@ int copy_to_clipboard(DisplayServer env, char const *password) {
   int status = pclose(pipe);
   if (status != 0) {
     fprintf(stderr, "Warning: clipboard copy may have failed (exit %d)\n", status);
-  } else {
-    fprintf(stderr, "Password copy to clipboard\n");
   }
   return STATUS_OK;
 #else
