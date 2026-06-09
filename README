@@ -1,0 +1,98 @@
+passgen - Password Generator
+=============================
+
+passgen is a command-line password generator written in C. It generates
+cryptographically secure random passwords and copies them directly to
+your clipboard.
+
+
+Features
+--------
+
+* Generate random passwords with configurable length (4-100 characters)
+* Character set includes uppercase, lowercase, digits, and special symbols
+* Automatic clipboard integration:
+  - X11 (via xclip)
+  - Wayland (via wl-copy)
+  - macOS (via pbcopy)
+* No external dependencies beyond standard system tools
+
+
+Requirements
+------------
+
+* GCC or compatible C compiler
+* make
+* (optional) xclip or wl-copy for clipboard support on Linux
+* (optional) Check library for running tests
+
+
+Installation
+------------
+
+  $ make
+  $ sudo make install
+
+This installs the passgen binary to /usr/local/bin by default. To change
+the prefix:
+
+  $ make PREFIX=$HOME/.local install
+
+
+Usage
+-----
+
+  $ passgen -g <length>
+
+Generate a password of the specified length:
+
+  $ passgen -g 32
+  aB3$xK9#mN8@pQ2&rT5*wY7(zC1)vF4
+
+The generated password is printed to stdout and automatically copied to
+your clipboard.
+
+  $ passgen -h
+
+Display help screen.
+
+
+Options
+-------
+
+  -g <len>   Generate a password of <len> characters (4-100)
+  -h         Show this help message
+
+
+Building from source
+--------------------
+
+  $ make          Build the project
+  $ make test     Build and run tests
+  $ make clean    Remove build artifacts
+  $ make install  Install to system
+  $ make uninstall
+
+
+Running tests
+-------------
+
+Tests use the Check unit testing framework:
+
+  $ make test
+
+
+Project structure
+-----------------
+
+  src/             Source files
+  tests/           Test files
+  Makefile         Build system
+  obj/             Compiled object files (generated)
+  bin/             Compiled binaries (generated)
+
+
+License
+-------
+
+This is free and unencumbered software released into the public domain.
